@@ -4,7 +4,7 @@ I've written a class CCMask which makes masking in Cocos2D fairly easy.
 
 You just have to define an object and a mask. And that's it!
 
-Insert this class into your project and use as the example below:
+Insert the CCMask class into your project and use the class just as the example below:
 
 // Ask director the the window size
 CGSize size = [[CCDirector sharedDirector] winSize];
