@@ -20,3 +20,6 @@ mask.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);
 // Create a masked image based on the object and the mask and add it to the screen
 CCMask *masked = [CCMask createMaskForObject: object withMask: mask];
 [self addChild: masked];
+
+You can also use redrawMasked is you feel the urge to rerender the mask, for example after you moved it.
+[masked redrawMasked];
