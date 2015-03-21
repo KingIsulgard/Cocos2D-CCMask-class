@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Cocos2d-mask-class : A mask class for Cocos2D.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cocos2d-mask-class</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/KingIsulgard/Cocos2D-Mask-class">View on GitHub</a>
+
+          <h1 id="project_title">Cocos2d-mask-class</h1>
+          <h2 id="project_tagline">A mask class for Cocos2D.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/KingIsulgard/Cocos2D-Mask-class/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/KingIsulgard/Cocos2D-Mask-class/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="cocos2d-mask-class" class="anchor" href="#cocos2d-mask-class" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cocos2D Mask Class</h3>
+
+<p>Cocos2D is a great framework for game development. Sadly it didn't contain one of the most required features for game development, masking.
+I've written a class CCMask which makes masking in Cocos2D fairly easy.</p>
+
+<p>You just have to define an object and a mask. And that's it!</p>
+
+<p>Insert this class into your project:</p>
+
+<p>The CCMask.h file
+<code>//</code>
+<code>//  CCMask.h</code>
+<code>//  Masking</code>
+<code>//</code>
+<code>//  Created by Gilles Lesire on 22/04/11.</code>
+<code>//  Copyright 2011 iCapps. All rights reserved.</code>
+<code>//  #import "cocos2d.h"</code></p>
+
+<p><code>@interface CCMask : CCSprite {</code>
+    <code>// Some screen information</code>
+    <code>CGSize size;</code>
+    <code>CGPoint screenMid;</code></p>
+
+<pre><code>`// The given sprites`
+`CCSprite *maskSprite;`
+`CCSprite *objectSprite;`
+
+`// RenderTextures use for masking`
+`CCRenderTexture *maskNegative;`
+`CCRenderTexture *masked;`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p><code>// Initialize a masked object based on an object sprite and a mask sprite</code>
+<code>+ (id) createMaskForObject: (CCSprite *) object withMask: (CCSprite *) mask;</code></p>
+
+<p><code>// Redraw the masked image</code>
+<code>- (void) redrawMasked;</code></p>
+
+<p><code>// When dynamic masking is active, you have the ability to change the masked object or the mask itself</code>
+<code>- (void) setObject: (CCSprite *) object;</code>
+<code>- (void) setMask: (CCSprite *) mask;</code></p>
+
+<p><code>// Return the masked object as a sprite</code>
+<code>- (CCSprite *) getMaskedSprite;</code></p>
+
+<p><code>@end</code></p>
+
+<p>The CCMask.m file
+<code>//</code>
+<code>//  CCMask.m</code>
+<code>//  Masking</code>
+<code>//</code>
+<code>//  Created by Gilles Lesire on 22/04/11.</code>
+<code>//  Copyright 2011 iCapps. All rights reserved.</code>
+<code>//  #import "CCMask.h"</code></p>
+
+<p><code>@interface CCMask(Private)</code>
+<code>- (id) initWithObject: (CCSprite *) object mask: (CCSprite *) mask;</code>
+<code>- (void) resetObject;</code>
+<code>- (void) mask;</code>
+<code>@end</code></p>
+
+<p><code>@implementation CCMask</code>
+<code>+ (id) createMaskForObject: (CCSprite *) object withMask: (CCSprite *) mask {</code>
+    <code>return [[[self alloc] initWithObject: object mask: mask] autorelease];</code>
+<code>}</code></p>
+
+<p><code>- (id) initWithObject: (CCSprite *) object mask: (CCSprite *) mask {</code>
+    <code>NSAssert(object != nil, @"Invalid sprite for object");</code>
+    <code>NSAssert(mask != nil, @"Invalid sprite for mask");</code></p>
+
+<pre><code>`if((self = [super init])) {`
+    `[self setObject: object];`
+    `[self setMask: mask];`
+
+    `// Get window size, we want masking over entire screen don't we?`
+    `size = [[CCDirector sharedDirector] winSize];`
+
+    `// Create point with middle of screen`
+    `screenMid = ccp(size.width * 0.5f, size.height * 0.5f);`
+
+    `// Create the rendureTextures to create cut outs`
+    `maskNegative = [CCRenderTexture renderTextureWithWidth: size.width height: size.height];`
+    `masked = [CCRenderTexture renderTextureWithWidth: size.width height: size.height];`
+
+    `// Set render textures at middle of screen`
+    `maskNegative.position = screenMid;`
+    `masked.position = screenMid;`
+
+    `// Set correct alpha channel for textures`
+    `[[maskNegative sprite] setBlendFunc: (ccBlendFunc) { GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA }];`
+    `[[masked sprite] setBlendFunc: (ccBlendFunc) { GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA }];`
+
+    `// Load object into RenderTextures`
+    `[self resetObject];`
+
+    `// Mask the object`
+    `[self mask];`
+
+    `// Add the masked object to the screen`
+    `[self addChild: masked];`
+`}`
+`return self;`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p><code>- (void) resetObject {</code>
+    <code>// Clear textures first</code>
+    <code>[maskNegative clear:0 g:0 b:0 a:1.0];</code>
+    <code>[masked clear:0 g:0 b:0 a:1.0];</code></p>
+
+<pre><code>`// Begin action for cut out`
+`[maskNegative begin];`
+
+`// Load sprite`
+`[objectSprite visit];`
+
+`// End loading sprites`
+`[maskNegative end];`
+
+`// Begin action for masked`
+`[masked begin];`
+
+`// Load sprite`
+`[objectSprite visit];`
+
+`// End loading sprites`
+`[masked end];`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p><code>- (void) redrawMasked {</code>
+    <code>// Put object back on the screen</code>
+    <code>[self resetObject];</code>
+    <code>// Cut out the parts we don't want to see</code>
+    <code>[self mask];</code>
+<code>}</code></p>
+
+<p><code>- (void) mask {</code>
+    <code>// Set up the burn sprite that will "knock out" parts of the darkness layer depending on the alpha value of the pixels in the image.</code>
+    <code>[maskSprite setBlendFunc: (ccBlendFunc) { GL_ZERO, GL_ONE_MINUS_SRC_ALPHA }];</code>
+    <code>[maskSprite retain];</code></p>
+
+<pre><code>`// Start cutting out the parts we want to show`
+`[maskNegative begin];`
+
+`// Limit drawing to the alpha channel`
+`glColorMask(0.0f, 0.0f, 0.0f, 1.0f);`
+
+`// Draw`
+`[maskSprite visit];`
+
+`// Reset color mask`
+`glColorMask(1.0f, 1.0f, 1.0f, 1.0f);`
+`[maskNegative end];`
+`[self addChild: maskNegative];`
+
+`// Create a temporary mask of the left cut out`
+`CCSprite *maskCut = maskNegative.sprite;`
+`maskCut.position = screenMid;`
+
+`// Set up the burn sprite that will "knock out" parts of the darkness layer depending on the alpha value of the pixels in the image.`
+`[maskCut setBlendFunc: (ccBlendFunc) { GL_ZERO, GL_ONE_MINUS_SRC_ALPHA }];`
+`[maskCut retain];`
+`[masked begin];`
+
+`// Limit drawing to the alpha channel`
+`glColorMask(0.0f, 0.0f, 0.0f, 1.0f);`
+
+`// Draw`
+`[maskCut visit];`
+
+`// Reset color mask`
+`glColorMask(1.0f, 1.0f, 1.0f, 1.0f);`
+`[masked end];`
+</code></pre>
+
+<p><code>}</code></p>
+
+<p><code>- (void) setObject: (CCSprite *) object {</code>
+    <code>objectSprite = object;</code>
+<code>}</code></p>
+
+<p><code>- (void) setMask: (CCSprite *) mask {</code>
+    <code>maskSprite = mask;</code>
+<code>}</code></p>
+
+<p><code>- (CCSprite *) getMaskedSprite {</code>
+    <code>return masked.sprite;</code>
+<code>}</code></p>
+
+<p><code>- (void) dealloc {</code>
+    <code>[super dealloc];</code>
+<code>}</code></p>
+
+<p><code>@end</code></p>
+
+<p>How to use it, example:
+<code>// Ask director the the window size</code>
+<code>CGSize size = [[CCDirector sharedDirector] winSize];</code></p>
+
+<p><code>// Create an object and a mask</code>
+<code>object = [CCSprite spriteWithFile:@"Ball.png"];</code>
+<code>mask = [CCSprite spriteWithFile:@"star.png"];</code></p>
+
+<p><code>// Set their positions</code>
+<code>object.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);</code>
+<code>mask.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);</code></p>
+
+<p><code>// Create a masked image based on the object and the mask and add it to the screen</code>
+<code>CCMask *masked = [CCMask createMaskForObject: object withMask: mask];</code>
+<code>[self addChild: masked];</code></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cocos2d-mask-class maintained by <a href="https://github.com/KingIsulgard">KingIsulgard</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
