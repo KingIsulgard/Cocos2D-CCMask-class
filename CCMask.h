@@ -3,7 +3,6 @@
 //  Masking
 //
 //  Created by Gilles Lesire on 22/04/11.
-//  Free for use but please mention the creator Gilles Lesire in your app
 //  #import "cocos2d.h"
 
 @interface CCMask : CCSprite {
