@@ -7,29 +7,29 @@ You just have to define an object and a mask. And that's it!
 Insert the CCMask class into your project and use the class just as the example below:
 
 ## Example 
-// Ask director the the window size
-
-CGSize size = [[CCDirector sharedDirector] winSize];
-
-// Create an object and a mask
-
-object = [CCSprite spriteWithFile:@"Ball.png"];
-
-mask = [CCSprite spriteWithFile:@"star.png"];
-
-// Set their positions
-
-object.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);
-
-mask.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);
-
-// Create a masked image based on the object and the mask and add it to the screen
-
-CCMask *masked = [CCMask createMaskForObject: object withMask: mask];
-
-[self addChild: masked];
+  // Ask director the the window size
+  
+  CGSize size = [[CCDirector sharedDirector] winSize];
+  
+  // Create an object and a mask
+  
+  object = [CCSprite spriteWithFile:@"Ball.png"];
+  
+  mask = [CCSprite spriteWithFile:@"star.png"];
+  
+  // Set their positions
+  
+  object.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);
+  
+  mask.position = ccp(size.width * 0.5f, size.height * 0.5f + 310);
+  
+  // Create a masked image based on the object and the mask and add it to the screen
+  
+  CCMask *masked = [CCMask createMaskForObject: object withMask: mask];
+  
+  [self addChild: masked];
 
 ## Redraw
 You can also use redrawMasked is you feel the urge to rerender the mask, for example after you moved it.
 
-[masked redrawMasked];
+  [masked redrawMasked];
