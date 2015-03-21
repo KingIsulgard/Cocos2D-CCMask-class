@@ -24,4 +24,5 @@ CCMask *masked = [CCMask createMaskForObject: object withMask: mask];
 
 ## Redraw
 You can also use redrawMasked is you feel the urge to rerender the mask, for example after you moved it.
+
 [masked redrawMasked];
