@@ -3,7 +3,9 @@
 //  Masking
 //
 //  Created by Gilles Lesire on 22/04/11.
-//  #import "cocos2d.h"
+//  GNU General Public License (GPL)
+
+#import "cocos2d.h"
 
 @interface CCMask : CCSprite {
     // Some screen information
