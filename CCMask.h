@@ -4,6 +4,8 @@
 //
 //  Created by Gilles Lesire on 22/04/11.
 //  GNU General Public License (GPL)
+//  https://github.com/KingIsulgard/Cocos2D-CCMask-class
+//
 
 #import "cocos2d.h"
 
