@@ -1,4 +1,4 @@
-# Cocos2D Mask Class
+# Cocos2D CCMask Class
 Cocos2D is a great framework for game development. Sadly it didn't contain one of the most required features for game development, masking.
 I've written a class CCMask which makes masking in Cocos2D fairly easy.
 
