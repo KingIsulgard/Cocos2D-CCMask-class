@@ -37,3 +37,24 @@ You can also use redrawMasked is you feel the urge to rerender the mask, for exa
 ```
   [masked redrawMasked];
 ```
+
+Donate
+======
+
+Please consider a small donation if you use CCMask in your projects. It would make me really happy.
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="HQE64D8RQGPLC">
+<input type="image" src="" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/nl_NL/i/scr/pixel.gif" width="1" height="1">
+</form>
+
+License and Warranty
+====================
+
+The license for the code is included with the project; it's basically a BSD license with attribution.
+
+You're welcome to use it in commercial, closed-source, open source, free or any other kind of software, as long as you credit me appropriately.
+
+The code comes with no warranty of any kind. I hope it'll be useful to you (it certainly is to me), but I make no guarantees regarding its functionality or otherwise.
