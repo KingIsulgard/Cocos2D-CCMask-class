@@ -41,14 +41,11 @@ You can also use redrawMasked is you feel the urge to rerender the mask, for exa
 Donate
 ======
 
+You can support [contributors](https://github.com/KingIsulgard/Cocos2D-CCMask-class/graphs/contributors) of this project individually. Every contributor is welcomed to add his/her line below with any content. Ordering shall be alphabetically by GitHub username.
+
 Please consider a small donation if you use CCMask in your projects. It would make me really happy.
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="HQE64D8RQGPLC">
-<input type="image" src="" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-<img alt="" border="0" src="https://www.paypalobjects.com/nl_NL/i/scr/pixel.gif" width="1" height="1">
-</form>
+* [@KingIsulgard](https://github.com/KingIsulgard): <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HQE64D8RQGPLC"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="[paypal]" /></a> !
 
 License and Warranty
 ====================
